@@ -36,7 +36,20 @@ class App extends Component {
   }
 
   addCredit(data) {
+    let newCredit = { ...data };
 
+    if (!newCredit.hasOwnProperty("id")) {
+      newCredit.id = this.state.creditList.length;
+    }
+
+    if (!newCredit.hasOwnProperty("date")) {
+      newCredit.date = (new Date()).toISOString();
+    }
+
+    this.setState({
+      creditList: [...this.state.creditList, newCredit],
+      accountBalance: this.state.accountBalance + newCredit.amount
+    });
   }
 
   // Create Routes and React elements to be rendered using React components
