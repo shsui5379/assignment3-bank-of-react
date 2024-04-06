@@ -16,6 +16,11 @@ const Credits = (props) => {
       return <li key={credit.id}>{credit.amount} {credit.description} {date}</li>
     });
   }
+
+  function submitHandler(e) {
+
+  }
+
   // Render the list of Credit items and a form to input new Credit item
   return (
     <div>
@@ -23,7 +28,7 @@ const Credits = (props) => {
 
       {creditsView()}
 
-      <form onSubmit={props.addCredit}>
+      <form onSubmit={submitHandler}>
         <input type="text" name="description" placeholder="description" required />
         <input type="number" name="amount" placeholder='amount' min={0} step={0.01} required />
         <button type="submit">Add Credit</button>
