@@ -35,7 +35,7 @@ class App extends Component {
     this.setState({ currentUser: newUser })
   }
 
-  addCredit(data) {
+  addCredit = (data) => {
     let newCredit = { ...data };
 
     if (!newCredit.hasOwnProperty("id")) {
