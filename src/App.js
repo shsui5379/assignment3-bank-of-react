@@ -44,6 +44,8 @@ class App extends Component {
 
     if (!newCredit.hasOwnProperty("date")) {
       newCredit.date = (new Date()).toISOString();
+      // note: .toISOString() doesn't return in local time zone, so "today" might look like tomorrow
+      // this method call is just to keep data format consistency with the sample data provided by assignment
     }
 
     this.setState({
