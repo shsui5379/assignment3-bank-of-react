@@ -80,7 +80,20 @@ class App extends Component {
   }
 
   addDebit = (data) => {
+    let newDebit = { ...data };
 
+    if (!newDebit.hasOwnProperty("id")) {
+      newDebit.id = this.state.debitList.length;
+    }
+
+    if (!newDebit.hasOwnProperty("date")) {
+      newDebit.date = (new Date()).toISOString();
+    }
+
+    this.setState({
+      debitList: [...this.state.debitList, newDebit],
+      accountBalance: this.state.accountBalance - newDebit.amount
+    });
   }
 
   // Create Routes and React elements to be rendered using React components
