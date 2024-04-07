@@ -13,9 +13,22 @@ const Credits = (props) => {
     const { credits } = props;
     return credits.map((credit) => {  // Extract "id", "amount", "description" and "date" properties of each credits JSON array element
       let date = credit.date.slice(0, 10);
-      return <li key={credit.id}>{credit.amount} {credit.description} {date}</li>
+      return <li key={credit.id}> ${credit.amount.toFixed(2)} -- {credit.description} -- {date}</li>
     });
   }
+
+  function submitHandler(e) {
+    e.preventDefault();
+
+    props.addCredit({
+      description: e.target.description.value,
+      amount: Number.parseFloat(e.target.amount.value)
+    });
+
+    e.target.description.value = "";
+    e.target.amount.value = "";
+  }
+
   // Render the list of Credit items and a form to input new Credit item
   return (
     <div>
@@ -23,9 +36,11 @@ const Credits = (props) => {
 
       {creditsView()}
 
-      <form onSubmit={props.addCredit}>
-        <input type="text" name="description" />
-        <input type="number" name="amount" />
+      <br />
+
+      <form onSubmit={submitHandler}>
+        <input type="text" name="description" placeholder="description" required />
+        <input type="number" name="amount" placeholder='amount' min={0} step={0.01} required />
         <button type="submit">Add Credit</button>
       </form>
 

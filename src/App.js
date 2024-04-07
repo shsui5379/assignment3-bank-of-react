@@ -28,11 +28,55 @@ class App extends Component {
     };
   }
 
+  async componentDidMount() {
+    let response;
+    let data;
+
+    // sample credits
+
+    try {
+      response = await fetch("https://johnnylaicode.github.io/api/credits.json", {
+        method: "GET"
+      });
+    } catch (error) {
+      return console.error("Error fetching sample credits: ", error);
+    }
+
+    try {
+      data = await response.json();
+    } catch (error) {
+      return console.error("Error parsing sample credits: ", error);
+    }
+
+    for (let credit of data) {
+      this.addCredit(credit);
+    }
+  }
+
   // Update state's currentUser (userName) after "Log In" button is clicked
   mockLogIn = (logInInfo) => {
     const newUser = { ...this.state.currentUser };
     newUser.userName = logInInfo.userName;
     this.setState({ currentUser: newUser })
+  }
+
+  addCredit = (data) => {
+    let newCredit = { ...data };
+
+    if (!newCredit.hasOwnProperty("id")) {
+      newCredit.id = this.state.creditList.length;
+    }
+
+    if (!newCredit.hasOwnProperty("date")) {
+      newCredit.date = (new Date()).toISOString();
+      // note: .toISOString() doesn't return in local time zone, so "today" might look like tomorrow
+      // this method call is just to keep data format consistency with the sample data provided by assignment
+    }
+
+    this.setState({
+      creditList: [...this.state.creditList, newCredit],
+      accountBalance: this.state.accountBalance + newCredit.amount
+    });
   }
 
   // Create Routes and React elements to be rendered using React components
@@ -43,7 +87,7 @@ class App extends Component {
       <UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-    const CreditsComponent = () => (<Credits credits={this.state.creditList} balance={this.state.accountBalance} />)
+    const CreditsComponent = () => (<Credits credits={this.state.creditList} balance={this.state.accountBalance} addCredit={this.addCredit} />)
     const DebitsComponent = () => (<Debits debits={this.state.debitList} balance={this.state.accountBalance} />)
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
