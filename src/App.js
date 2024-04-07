@@ -51,6 +51,26 @@ class App extends Component {
     for (let credit of data) {
       this.addCredit(credit);
     }
+
+    // sample debits
+
+    try {
+      response = await fetch("https://johnnylaicode.github.io/api/debits.json", {
+        method: "GET"
+      });
+    } catch (error) {
+      return console.error("Error fetching sample credits: ", error);
+    }
+
+    try {
+      data = await response.json();
+    } catch (error) {
+      return console.error("Error parsing sample credits: ", error);
+    }
+
+    for (let debit of data) {
+      this.addDebit(debit);
+    }
   }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
@@ -79,6 +99,23 @@ class App extends Component {
     });
   }
 
+  addDebit = (data) => {
+    let newDebit = { ...data };
+
+    if (!newDebit.hasOwnProperty("id")) {
+      newDebit.id = this.state.debitList.length;
+    }
+
+    if (!newDebit.hasOwnProperty("date")) {
+      newDebit.date = (new Date()).toISOString();
+    }
+
+    this.setState({
+      debitList: [...this.state.debitList, newDebit],
+      accountBalance: this.state.accountBalance - newDebit.amount
+    });
+  }
+
   // Create Routes and React elements to be rendered using React components
   render() {
     // Create React elements and pass input props to components
@@ -88,7 +125,7 @@ class App extends Component {
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
     const CreditsComponent = () => (<Credits credits={this.state.creditList} balance={this.state.accountBalance} addCredit={this.addCredit} />)
-    const DebitsComponent = () => (<Debits debits={this.state.debitList} balance={this.state.accountBalance} />)
+    const DebitsComponent = () => (<Debits debits={this.state.debitList} balance={this.state.accountBalance} addDebit={this.addDebit} />)
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (

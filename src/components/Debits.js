@@ -13,9 +13,22 @@ const Debits = (props) => {
     const { debits } = props;
     return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
       let date = debit.date.slice(0, 10);
-      return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
+      return <li key={debit.id}> ${debit.amount.toFixed(2)} -- {debit.description} -- {date}</li>
     });
   }
+
+  function submitHandler(e) {
+    e.preventDefault();
+
+    props.addDebit({
+      description: e.target.description.value,
+      amount: Number(parseFloat(e.target.amount.value))
+    });
+
+    e.target.description.value = "";
+    e.target.amount.value = "";
+  }
+
   // Render the list of Debit items and a form to input new Debit item
   return (
     <div>
@@ -23,9 +36,11 @@ const Debits = (props) => {
 
       {debitsView()}
 
-      <form onSubmit={props.addDebit}>
-        <input type="text" name="description" />
-        <input type="number" name="amount" />
+      <br />
+
+      <form onSubmit={submitHandler}>
+        <input type="text" name="description" placeholder='description' required />
+        <input type="number" name="amount" placeholder='amount' min={0} step={0.01} required />
         <button type="submit">Add Debit</button>
       </form>
 
