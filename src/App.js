@@ -136,6 +136,7 @@ class App extends Component {
           <Route exact path="/login" render={LogInComponent} />
           <Route exact path="/credits" render={CreditsComponent} />
           <Route exact path="/debits" render={DebitsComponent} />
+          <Route basename="/assignment3-bank-of-react" />
         </div>
       </Router>
     );
