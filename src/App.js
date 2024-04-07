@@ -51,6 +51,26 @@ class App extends Component {
     for (let credit of data) {
       this.addCredit(credit);
     }
+
+    // sample debits
+
+    try {
+      response = await fetch("https://johnnylaicode.github.io/api/debits.json", {
+        method: "GET"
+      });
+    } catch (error) {
+      return console.error("Error fetching sample credits: ", error);
+    }
+
+    try {
+      data = await response.json();
+    } catch (error) {
+      return console.error("Error parsing sample credits: ", error);
+    }
+
+    for (let debit of data) {
+      this.addDebit(debit);
+    }
   }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
