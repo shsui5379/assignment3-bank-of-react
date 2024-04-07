@@ -28,6 +28,31 @@ class App extends Component {
     };
   }
 
+  async componentDidMount() {
+    let response;
+    let data;
+
+    // sample credits
+
+    try {
+      response = await fetch("https://johnnylaicode.github.io/api/credits.json", {
+        method: "GET"
+      });
+    } catch (error) {
+      return console.error("Error fetching sample credits: ", error);
+    }
+
+    try {
+      data = await response.json();
+    } catch (error) {
+      return console.error("Error parsing sample credits: ", error);
+    }
+
+    for (let credit of data) {
+      this.addCredit(credit);
+    }
+  }
+
   // Update state's currentUser (userName) after "Log In" button is clicked
   mockLogIn = (logInInfo) => {
     const newUser = { ...this.state.currentUser };
