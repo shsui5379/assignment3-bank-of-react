@@ -36,6 +36,8 @@ const Credits = (props) => {
 
       {creditsView()}
 
+      <br />
+
       <form onSubmit={submitHandler}>
         <input type="text" name="description" placeholder="description" required />
         <input type="number" name="amount" placeholder='amount' min={0} step={0.01} required />
