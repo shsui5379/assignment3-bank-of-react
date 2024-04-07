@@ -18,7 +18,15 @@ const Debits = (props) => {
   }
 
   function submitHandler(e) {
+    e.preventDefault();
 
+    props.addDebit({
+      description: e.target.description.value,
+      amount: Number(parseFloat(e.target.amount.value))
+    });
+
+    e.target.description.value = "";
+    e.target.amount.value = "";
   }
 
   // Render the list of Debit items and a form to input new Debit item
