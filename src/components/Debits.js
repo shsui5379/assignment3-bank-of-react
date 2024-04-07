@@ -16,6 +16,11 @@ const Debits = (props) => {
       return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
     });
   }
+
+  function submitHandler(e) {
+
+  }
+
   // Render the list of Debit items and a form to input new Debit item
   return (
     <div>
@@ -25,7 +30,7 @@ const Debits = (props) => {
 
       <br />
 
-      <form onSubmit={props.addDebit}>
+      <form onSubmit={submitHandler}>
         <input type="text" name="description" placeholder='description' required />
         <input type="number" name="amount" placeholder='amount' min={0} step={0.01} required />
         <button type="submit">Add Debit</button>
