@@ -18,7 +18,15 @@ const Credits = (props) => {
   }
 
   function submitHandler(e) {
+    e.preventDefault();
 
+    props.addCredit({
+      description: e.target.description.value,
+      amount: Number.parseFloat(e.target.amount.value)
+    });
+
+    e.target.description.value = "";
+    e.target.amount.value = "";
   }
 
   // Render the list of Credit items and a form to input new Credit item
